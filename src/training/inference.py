@@ -3,7 +3,7 @@ from transformers import TextStreamer
 
 # 1. Load model yang baru saja selesai dilatih
 model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name = "outputs/checkpoint-60", # Memanggil folder hasil training Anda
+    model_name = "sql_llama_lora_model", # Memanggil folder hasil training Anda
     max_seq_length = 2048,
     load_in_4bit = True,
 )

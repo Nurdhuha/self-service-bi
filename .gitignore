@@ -1,0 +1,91 @@
+# ====================================================================
+# GRADUATION THESIS (TUGAS AKHIR) STANDARD GITIGNORE
+# Project: Self-Service BI (Text-to-SQL Llama)
+# ====================================================================
+
+# --- OS-Specific Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Python Caches & Compiled Files ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- PyTorch, HuggingFace & Machine Learning Checkpoints ---
+# Exclude massive local training model checkpoints and optimizer states to prevent Git limits (100MB+)
+src/training/outputs_full/
+src/training/outputs/
+src/training/unsloth_compiled_cache/
+unsloth_compiled_cache/
+.cache/
+huggingface/
+
+# --- Environment Settings & Sensitive Credentials ---
+# Never upload secret environment credentials or API keys to GitHub
+.env
+src/backend/.env
+*.env.*
+.venv/
+venv/
+ENV/
+env/
+active_env/
+
+# --- Dataset and Heavy Databases ---
+# Exclude raw large CSVs and data splits to keep repository lightweight
+Brazillian E-commerce/
+"Brazillian E-commerce/"
+data/raw/
+data/splits/
+*.csv
+*.xlsx
+*.sqlite
+*.db
+
+# --- Node.js & React Frontend Dashboard ---
+# Exclude frontend dependencies, build outputs, and local configs
+dashboard/node_modules/
+node_modules/
+dashboard/dist/
+dashboard/build/
+dashboard/.next/
+dashboard/.docusaurus/
+dashboard/.svelte-kit/
+.npm
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# --- Agent and CLI Workspace Caches ---
+.antigravitycli/
+.gemini/
+skills/
+scratch/
+responses/test_run_summary_*.json

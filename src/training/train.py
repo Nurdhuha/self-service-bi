@@ -43,27 +43,34 @@ def formatting_prompts_func(examples):
         texts.append(text)
     return { "text" : texts, }
 
-# 3. Load Dataset Baru (Pastikan nama file sesuai dengan yang Anda buat)
-dataset = load_dataset("json", data_files={"train": "../../data/processed/dataset_latih.jsonl"}, split="train")
-dataset = dataset.map(formatting_prompts_func, batched = True,)
+# 3. Load Split Dataset (Train & Validation)
+dataset_train = load_dataset("json", data_files={"train": "../../data/splits/train.jsonl"}, split="train")
+dataset_val = load_dataset("json", data_files={"train": "../../data/splits/val.jsonl"}, split="train")
 
-# 4. Setup Trainer - Mode Full Epoch
+dataset_train = dataset_train.map(formatting_prompts_func, batched = True,)
+dataset_val = dataset_val.map(formatting_prompts_func, batched = True,)
+
+# 4. Setup Trainer with Validation Monitoring - Mode Full Epoch
 trainer = SFTTrainer(
     model = model,
     tokenizer = tokenizer,
-    train_dataset = dataset,
+    train_dataset = dataset_train,
+    eval_dataset = dataset_val,
     dataset_text_field = "text", 
     max_seq_length = 2048,
     args = TrainingArguments(
         per_device_train_batch_size = 2,
         gradient_accumulation_steps = 4,
-        warmup_steps = 15,           # Dinaikkan untuk kelancaran fase awal di dataset yang lebih besar
-        num_train_epochs = 3,         # Model akan membaca seluruh 500 data sebanyak 3 kali putaran
+        warmup_steps = 15,
+        num_train_epochs = 3,
         learning_rate = 2e-4,
         fp16 = not torch.cuda.is_bf16_supported(),
-        logging_steps = 5,            # Log muncul setiap 5 steps agar terminal rapi
-        save_strategy = "epoch",      # Menyimpan checkpoint di setiap akhir epoch
-        output_dir = "outputs_full",  # Hasil disimpan di folder baru
+        bf16 = torch.cuda.is_bf16_supported(),
+        logging_steps = 5,
+        evaluation_strategy = "steps",  # Compute validation loss periodically
+        eval_steps = 10,                # Evaluate validation loss every 10 steps
+        save_strategy = "epoch",
+        output_dir = "outputs_full",
     ),
 )
 
