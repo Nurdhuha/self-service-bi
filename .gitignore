@@ -89,3 +89,5 @@ yarn-error.log*
 skills/
 scratch/
 responses/test_run_summary_*.json
+responses/test_split_summary_*.json
+docs/
